@@ -1,0 +1,32 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+exporters:
+  #otlp:
+  otlphttp:
+        endpoint: http://otel:4318
+        #endpoint: https:/XXXXXXX.snowflakecomputing.app
+        tls:
+           insecure: true
+        compression: gzip
+        #headers: 
+           #Authorization: 'Snowflake Token="XXXXXX"'
+  debug:
+    verbosity: detailed
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      #exporters: [debug,otlp]
+      exporters: [debug,otlphttp]
+    metrics:
+      receivers: [otlp]
+      #exporters: [debug,otlp]
+      exporters: [debug,otlphttp]
+    logs:
+      receivers: [otlp]
+      #exporters: [debug,otlp]      
+      exporters: [debug,otlphttp]                                                                                                                                                                         

@@ -1,0 +1,36 @@
+services:
+  otel:
+    image: "kbkeller/snowflakeotelreceiver:latest"
+    environment:
+      - SNOWFLAKE_DATABASE=otel
+      - SNOWFLAKE_WAREHOUSE=otelwh
+      - SNOWFLAKE_SCHEMA=otelschema
+      - SNOWFLAKE_ACCOUNT=xxx
+      - SNOWFLAKE_USER=xxx
+      - SNOWFLAKE_ROLE=OTELTEST
+      - SNOWFLAKE_PASSWORD=xxx
+      - SPCS="False"
+    ports:
+      - "4318:4318"
+      
+  otel_collector:
+    image: otel/opentelemetry-collector
+    ports:
+      - "4317:4317"
+    volumes:
+      #for windows - "C:\\...snowflake-opentelemetry-receiver\\otel_collector/collector-config.yaml:/etc/otelcol/config.yaml"
+      # for mac or linux:
+       - ./otel_collector/collector-config.yaml:/etc/otelcol/config.yaml
+
+    restart: always
+
+  
+  otelflasksample:
+    image: "kbkeller/snowflakeotelflasksample"
+    environment:
+      - ENDPOINT=otel_collector:4317
+      - ENDPOINT_INSECURE=True
+    ports:
+      - "5000:5000"
+
+
