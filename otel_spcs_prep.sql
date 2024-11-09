@@ -69,7 +69,6 @@ grant usage on compute pool OTEL_COMPUTE_POOL to role oteltest;
 grant operate on compute pool OTEL_COMPUTE_POOL to role oteltest;
 grant monitor on compute pool OTEL_COMPUTE_POOL to role oteltest;
 grant modify on compute pool OTEL_COMPUTE_POOL to role oteltest;
-grant ownership on compute pool OTEL_COMPUTE_POOL to role oteltest;
 
 use role oteltest;
 
@@ -84,11 +83,11 @@ use role oteltest;
      containers:
      - name: "otel"
        image: "/otel/otelschema/oteltestimages/otel-image:latest"
-     env:
-       SNOWFLAKE_DATABASE:"otel"
-       SNOWFLAKE_WAREHOUSE:"otelwh"
-       SNOWFLAKE_SCHEMA:"otelschema"
-       SPCS: "True"
+       env:
+         SNOWFLAKE_DATABASE: "otel"
+         SNOWFLAKE_WAREHOUSE: "otelwh"
+         SNOWFLAKE_SCHEMA: "otelschema"
+         SPCS: "True"
           
      endpoints:
      - name: otelhttp
